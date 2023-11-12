@@ -17,7 +17,7 @@ from scipy import ndimage as ndi
 import pandas as pd
 
 # Diretório das imagens
-diretorio_das_imagens = 'C:\\Users\\thais\\OneDrive\\17 - UnB - Mestrado\\5 - Dissertação\\ARTIGOS\\ECSMGE-24 - ESFERICIDADE\\imagens\\'
+diretorio_das_imagens = '...\\images\\'
 
 # Função para calcular a área do menor círculo circunscrito a uma partícula
 def calcular_area_circunscrita(mascara):
@@ -116,7 +116,7 @@ def funcao_esfericidade(diretorio_das_imagens):
     df_resultados = pd.DataFrame(dados_resultados, columns=['Nome do Arquivo', 'Número da Partícula', 'Área', 'Área Circunscrita'])
 
     # Especifica o caminho de salvamento do arquivo Excel
-    caminho_excel = 'C:\\Users\\thais\\OneDrive\\Área de Trabalho\\Tabela_Esfericidade.xlsx'
+    caminho_excel = '...\\Table.xlsx'
 
     # Exporta o DataFrame para um arquivo Excel
     df_resultados.to_excel(caminho_excel, index=False)

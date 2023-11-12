@@ -125,9 +125,81 @@ def funcao_esfericidade(diretorio_das_imagens):
 # Example of using the function
 funcao_esfericidade(diretorio_das_imagens)
 
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# In[ ]:
+# Reading sphericity values generated in the excel table (Equation 1)-named column 'Esf'
+df = pd.read_excel('C:\\Users\\thais\OneDrive\\17 - UnB - Mestrado\\5 - Dissertação\\ARTIGOS\\ECSMGE-24 - ESFERICIDADE\\Tabela_Esfericidade_TodasImagens_para_df.xlsx')
+
+# Extracting descriptive statistics for the 'esf' column
+desc_stats = df['Esf'].describe()
+
+# Displaying descriptive statistics
+print(desc_stats)
+
+# Extracting the 'Esf' column
+esf_coluna = df['Esf']
+
+# Boxplot to identify outliers
+plt.figure(figsize=(8, 6))
+sns.boxplot(x=esf_coluna)
+plt.title('Gráfico de Caixa para Identificar Outliers na Coluna Esf')
+plt.xlabel('Esf')
+plt.show()
+
+# Identifying outliers based on standard deviation
+desvio_padrao = esf_coluna.std()
+limite_superior = esf_coluna.mean() + 2 * desvio_padrao
+limite_inferior = esf_coluna.mean() - 2 * desvio_padrao
+
+outliers = df[(esf_coluna > limite_superior) | (esf_coluna < limite_inferior)]
+print('Outliers:')
+print(outliers)
+print('Limite Superior:') 
+print(limite_superior)
+print('Limite Inferior:')
+print(limite_inferior)
+
+# Filtering data that are not outliers
+dados_sem_outliers = df[(esf_coluna >= limite_inferior) & (esf_coluna <= limite_superior)]['Esf']
+
+# Plotting frequency curve
+plt.hist(dados_sem_outliers, bins='auto', alpha=0.7, color='blue', edgecolor='black')
+
+plt.xlabel('Sphericity')
+plt.ylabel('Frequency [%]')
+plt.show()
+
+import pandas as pd
+
+# Creating a DataFrame after excluding outliers
+df_sem_outliers = pd.DataFrame({'Esf_sem_outliers': dados_sem_outliers})
+
+# Calculating descriptive statistics after excluding outliers
+desc_stats_sem_outliers = df_sem_outliers['Esf_sem_outliers'].describe()
+
+# Displaying descriptive statistics after excluding outliers
+print(desc_stats_sem_outliers)
+
+# Generating cumulative frequency plot
+import matplotlib.pyplot as plt
+import numpy as np
 
 
+# Creating a numpy array of the data
+dados_sem_outliers = np.array(dados_sem_outliers)
 
+# Sorting the data
+dados_sem_outliers = np.sort(dados_sem_outliers)
 
+# Calculating cumulative frequency
+frequencia_acumulativa = np.arange(1, len(dados_sem_outliers) + 1) / len(dados_sem_outliers)
+
+# Plotting the cumulative frequency plot
+plt.figure(figsize=(8, 6))
+plt.step(dados_sem_outliers, frequencia_acumulativa, where='mid')
+plt.xlabel('Sphericity')
+plt.ylabel('Cumulative Frequency [%]')
+plt.grid(True)
+plt.show()

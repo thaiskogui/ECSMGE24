@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # CODE WITH FUNCTION TO PROCESS A FOLDER WITH MULTIPLE IMAGES
-
-# In[48]:
-
 
 import os
 import cv2
